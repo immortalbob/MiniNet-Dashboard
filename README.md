@@ -78,10 +78,10 @@ Example:
   "show_percentage": true,
   "show_up_count": true,
   "show_down_count": true,
-  "status_up_symbol": "● UP  ",
-  "status_down_symbol": "● DOWN ",
-  "status_pending_symbol": "● PEND ",
-  "status_maintenance_symbol": "● MAINT",
+  "status_up_symbol": "●",
+  "status_down_symbol": "-",
+  "status_pending_symbol": "?",
+  "status_maintenance_symbol": "-",
   "border_style": "double",
   "compact_mode": false
 }
