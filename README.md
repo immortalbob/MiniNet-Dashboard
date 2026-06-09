@@ -6,6 +6,8 @@ Originally developed for a Raspberry Pi 4B and SunFounder 3.5" IPS display as a 
 
 MiniNet connects directly to your Uptime Kuma instance and provides a clean, real-time overview of monitor status in a terminal window.
 
+![Example MiniNet Readout](images/example.png)
+
 ---
 
 # Features
