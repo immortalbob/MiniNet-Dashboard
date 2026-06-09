@@ -69,7 +69,7 @@ Config lives at `~/.kuma-dashboard.json`. All fields are optional — defaults a
 | `show_down_count` | `true` | Show DOWN count in header |
 | `status_up_symbol` | `+` | Symbol for UP monitors |
 | `status_down_symbol` | `-` | Symbol for DOWN monitors |
-| `status_pending_symbol`: `?` | Symbol for PENDING monitors |
+| `status_pending_symbol` | `?` | Symbol for PENDING monitors |
 | `status_maintenance_symbol` | `!` | Symbol for MAINTENANCE monitors |
 | `border_style` | `double` | Border style: `single` `double` `thin` |
 | `compact_mode` | `false` | Skip blank lines between monitors and footer |
