@@ -1,4 +1,4 @@
-# MiniNet Dashboard
+# MiniNet Kuma Dashboard
 
 A lightweight terminal dashboard for Uptime Kuma designed for Raspberry Pis, wall displays, kiosks, and dedicated monitoring screens.
 
