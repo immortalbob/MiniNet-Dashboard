@@ -1,38 +1,21 @@
-# MiniNet Kuma Dashboard
+# MiniNet-Dashboard
 
-A lightweight terminal dashboard for Uptime Kuma designed for Raspberry Pis, wall displays, kiosks, and dedicated monitoring screens.
+A configurable terminal dashboard for [Uptime Kuma](https://github.com/louislam/uptime-kuma), displaying monitor statuses in a clean CLI layout with night mode, customizable symbols, multi-column support, and a live uptime bar.
 
-Originally developed for a Raspberry Pi 4B and SunFounder 3.5" IPS display as a dedicated Uptime Kuma status screen, MiniNet automatically adapts to different terminal sizes and display hardware.
+Built for headless displays and low-power nodes like a Raspberry Pi with a small attached screen.
 
-MiniNet connects directly to your Uptime Kuma instance and provides a clean, real-time overview of monitor status in a terminal window.
+---
+
+## Screenshot
 
 ![Example MiniNet Readout](images/example.png)
 
 ---
 
-# Features
-
-- Real-time Uptime Kuma monitor status
-- Configurable refresh interval
-- Automatic night mode screen blanking
-- Dynamic terminal sizing
-- Single-column or two-column layouts
-- Custom status symbols
-- Configurable colors
-- Uptime percentage display
-- Online/offline monitor counts
-- Automatic monitor sorting
-- Cached display during temporary Uptime Kuma outages
-
----
-
-# Requirements
+## Requirements
 
 - Python 3.8+
-- Uptime Kuma
-- Terminal with ANSI color support
-
-Install the dependency:
+- [`uptime-kuma-api`](https://github.com/lucasheld/uptime-kuma-api)
 
 ```bash
 pip install uptime-kuma-api
@@ -40,36 +23,70 @@ pip install uptime-kuma-api
 
 ---
 
-# Installation
+## Setup
+
+**1. Clone or copy the script:**
 
 ```bash
-git clone https://github.com/immortalbob/mininet-dashboard.git
-cd mininet-dashboard
+git clone https://github.com/immortalbob/MiniNet-Dashboard
+cd MiniNet-Dashboard
+```
+
+**2. Edit your credentials and preferences (copy example below):**
+
+```bash
 nano ~/.kuma-dashboard.json
+```
+
+**3. Run:**
+
+```bash
 python3 kuma-dashboard.py
 ```
 
 ---
 
-# Configuration File
+## Configuration
 
-Configuration is loaded from:
+Config lives at `~/.kuma-dashboard.json`. All fields are optional — defaults are used for anything not specified.
 
-```text
-~/.kuma-dashboard.json
-```
+| Key | Default | Description |
+|-----|---------|-------------|
+| `kuma_url` | `http://localhost:3001` | URL of your Uptime Kuma instance |
+| `username` | *(required)* | Uptime Kuma username |
+| `password` | *(required)* | Uptime Kuma password |
+| `refresh_interval` | `30` | Seconds between data refreshes |
+| `night_start` | `20` | Hour (24h) when screen blanks |
+| `night_end` | `4` | Hour (24h) when screen wakes |
+| `dashboard_title` | `MyNetwork` | Title shown in header |
+| `title_color` | `red` | Title color: `red` `green` `yellow` `cyan` `blue` `magenta` `white` |
+| `use_12hr_time` | `true` | 12-hour vs 24-hour clock |
+| `show_date` | `true` | Show date in header |
+| `columns` | `2` | Number of columns (1–2) |
+| `bar_length` | `50` | Width of the uptime bar in characters |
+| `show_percentage` | `true` | Show uptime % next to bar |
+| `show_up_count` | `true` | Show UP count in header |
+| `show_down_count` | `true` | Show DOWN count in header |
+| `status_up_symbol` | `+` | Symbol for UP monitors |
+| `status_down_symbol` | `-` | Symbol for DOWN monitors |
+| `status_pending_symbol`: `?` | Symbol for PENDING monitors |
+| `status_maintenance_symbol` | `!` | Symbol for MAINTENANCE monitors |
+| `border_style` | `double` | Border style: `single` `double` `thin` |
+| `compact_mode` | `false` | Skip blank lines between monitors and footer |
 
-Example:
+### Example Config
+
+Copy this to `~/.kuma-dashboard.json` and fill in your credentials:
 
 ```json
 {
   "kuma_url": "http://localhost:3001",
-  "username": "YOUR_USERNAME",
-  "password": "YOUR_PASSWORD",
+  "username": "your_username",
+  "password": "your_password",
   "refresh_interval": 30,
   "night_start": 20,
   "night_end": 4,
-  "dashboard_title": "MiniNet",
+  "dashboard_title": "MyNetwork",
   "title_color": "red",
   "use_12hr_time": true,
   "show_date": true,
@@ -78,7 +95,7 @@ Example:
   "show_percentage": true,
   "show_up_count": true,
   "show_down_count": true,
-  "status_up_symbol": "●",
+  "status_up_symbol": "+",
   "status_down_symbol": "-",
   "status_pending_symbol": "?",
   "status_maintenance_symbol": "!",
@@ -87,214 +104,80 @@ Example:
 }
 ```
 
----
+### Environment Variable Overrides
 
-# Configuration Reference
-
-## Connection
-
-| Setting | Description |
-|----------|-------------|
-| kuma_url | URL of the Uptime Kuma server |
-| username | Uptime Kuma username |
-| password | Uptime Kuma password |
-| refresh_interval | Refresh interval in seconds |
-
-## Night Mode
-
-| Setting | Description |
-|----------|-------------|
-| night_start | Hour to blank display (24-hour format) |
-| night_end | Hour to resume display |
-
-## Display
-
-| Setting | Description |
-|----------|-------------|
-| dashboard_title | Dashboard title |
-| title_color | red, green, yellow, cyan, blue, magenta, white, bold |
-| use_12hr_time | 12-hour or 24-hour clock |
-| show_date | Show current date |
-| columns | 1 or 2 columns |
-| compact_mode | Reduce vertical spacing |
-
-### Columns Notes
-
-- `1` = Single-column layout
-- `2` = Two-column layout
-- Values greater than `2` are currently treated as `2`
-
-## Status Bar
-
-| Setting | Description |
-|----------|-------------|
-| bar_length | Width of uptime bar |
-| show_percentage | Show uptime percentage |
-| show_up_count | Show online monitor count |
-| show_down_count | Show offline monitor count |
-
-## Status Symbols
-
-```json
-{
-  "status_up_symbol": "+",
-  "status_down_symbol": "-",
-  "status_pending_symbol": "?",
-  "status_maintenance_symbol": "!"
-}
-```
-
-## Border Styles
-
-Supported values:
-
-- double
-- single
-- thin
-
-### Current Implementation Note
-
-`single` and `double` currently render identically.
-
-`thin` is the only visually distinct alternative style.
-
----
-
-# Environment Variables
-
-Environment variables override JSON configuration values.
+Credentials can be set via environment variables, which take precedence over the config file:
 
 ```bash
 export KUMA_URL=http://localhost:3001
 export KUMA_USERNAME=admin
-export KUMA_PASSWORD=secret
+export KUMA_PASSWORD=yourpassword
 ```
 
 ---
 
-# Behavior Notes
+## Terminal Sizing
 
-## Monitor Sorting
+The dashboard is fully responsive to your terminal size. Borders and separators stretch to fill the full width, the uptime bar respects `bar_length` up to the available width, and the footer is pushed to the bottom of the screen. Resizing the terminal or SSH window takes effect on the next refresh cycle.
 
-Monitors are automatically sorted alphabetically by name.
-
-The display order configured in Uptime Kuma is not preserved.
-
-## Connection Loss Handling
-
-If communication with Uptime Kuma is temporarily lost, the dashboard continues displaying the most recently retrieved monitor data until connectivity returns.
-
-## Unknown Configuration Keys
-
-Unknown JSON keys are ignored rather than causing startup failures.
+For small screens (like a 3.5" Pi display running a framebuffer terminal), `compact_mode: true` removes the blank lines between the monitor list and footer, keeping everything visible without scrolling.
 
 ---
 
-# Running as a systemd Service
+## Running as a systemd Service
 
-Create:
-
-```bash
-sudo nano /etc/systemd/system/mininet-dashboard.service
-```
-
-Example service:
+To run the dashboard automatically on boot (e.g. on a headless Pi):
 
 ```ini
+# /etc/systemd/system/kuma-dashboard.service
 [Unit]
-Description=MiniNet Dashboard
-After=network-online.target
-Wants=network-online.target
+Description=Kuma Dashboard
+After=network.target
 
 [Service]
-Type=simple
-User=pi
-WorkingDirectory=/home/pi/mininet-dashboard
-ExecStart=/usr/bin/python3 /home/pi/mininet-dashboard/kuma-dashboard.py
-Restart=always
-RestartSec=10
+ExecStart=/usr/bin/python3 /home/youruser/kuma-dashboard/kuma-dashboard.py
+Restart=on-failure
+User=youruser
+Environment=TERM=xterm-256color
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-Reload systemd:
-
 ```bash
 sudo systemctl daemon-reload
-```
-
-Enable at boot:
-
-```bash
-sudo systemctl enable mininet-dashboard
-```
-
-Start:
-
-```bash
-sudo systemctl start mininet-dashboard
-```
-
-View logs:
-
-```bash
-journalctl -u mininet-dashboard -f
+sudo systemctl enable --now kuma-dashboard
 ```
 
 ---
 
-# Raspberry Pi Example
+## Night Mode
 
-Developed and tested on:
-
-- Raspberry Pi 4B
-- SunFounder 3.5-inch IPS Display
-- Raspberry Pi OS Lite
-- Uptime Kuma
-
-The dashboard should also work on:
-
-- Other Raspberry Pi models
-- HDMI displays
-- Tablets running terminal kiosks
-- Desktop monitors
-- SSH sessions
+The dashboard blanks the screen automatically between `night_start` and `night_end` hours to avoid burn-in on always-on displays. Wraps midnight correctly — e.g. `night_start: 20`, `night_end: 4` blanks from 8 PM to 4 AM.
 
 ---
 
-# Contributing
+## Error Handling
 
-Contributions are welcome and appreciated.
-
-Whether you're fixing bugs, improving documentation, testing on new hardware, or adding new features, pull requests are encouraged.
-
-Potential areas for contribution include:
-
-- True three-column layout support
-- Additional border styles
-- Theme presets
-- Docker packaging
-- Better small-screen optimizations
-- Improved error reporting
-- Multiple dashboard pages/views
-- Grouped monitor support
-- Additional display hardware testing
-
-To contribute:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-Bug reports, feature requests, and suggestions are also welcome through GitHub Issues.
-
-Please keep contributions focused, documented, and consistent with the project's lightweight design philosophy.
+If a data fetch fails (network blip, Kuma restart), the dashboard holds the last known state rather than crashing or going blank. Errors are silently swallowed and the stale data is redisplayed until the next successful poll.
 
 ---
 
-# License
+## Contributing
 
-MIT License
+Contributions are welcome. If you have a feature idea, bug fix, or improvement, feel free to open an issue or submit a pull request.
+
+A few areas where help would be appreciated:
+
+- **Combo/multi-monitor grouping** — grouping monitors by tag or parent
+- **3-column layout** — the config accepts `columns: 3` but the layout logic caps at 2
+- **Border style expansion** — `single`, `double`, and `thin` currently render identically; proper distinct styles would be a nice improvement
+- **Color themes** — a full theme system beyond per-element color config
+
+Please keep PRs focused and configs in `config.example.json` rather than hardcoded values. Sensitive data should never be committed.
+
+---
+
+## License
+
+MIT
