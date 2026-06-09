@@ -81,7 +81,7 @@ Example:
   "status_up_symbol": "●",
   "status_down_symbol": "-",
   "status_pending_symbol": "?",
-  "status_maintenance_symbol": "-",
+  "status_maintenance_symbol": "!",
   "border_style": "double",
   "compact_mode": false
 }
