@@ -31,7 +31,7 @@ pip install uptime-kuma-api
 ```
 
 ```bash
-git clone https://github.com/yourname/mininet-dashboard.git
+git clone https://github.com/immortalbob/mininet-dashboard.git
 cd mininet-dashboard
 ```
 
