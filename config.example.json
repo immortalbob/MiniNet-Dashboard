@@ -1,0 +1,23 @@
+{
+  "kuma_url": "http://localhost:3001",
+  "username": "your_username",
+  "password": "your_password",
+  "refresh_interval": 30,
+  "night_start": 20,
+  "night_end": 4,
+  "dashboard_title": "MyNetwork",
+  "title_color": "red",
+  "use_12hr_time": true,
+  "show_date": true,
+  "columns": 2,
+  "bar_length": 50,
+  "show_percentage": true,
+  "show_up_count": true,
+  "show_down_count": true,
+  "status_up_symbol": "+",
+  "status_down_symbol": "-",
+  "status_pending_symbol": "?",
+  "status_maintenance_symbol": "!",
+  "border_style": "double",
+  "compact_mode": false
+}
